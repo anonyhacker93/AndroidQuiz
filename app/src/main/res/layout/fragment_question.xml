@@ -1,0 +1,39 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/question_recyler"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="100dp"
+    android:clipToPadding="false"
+    >
+</android.support.v7.widget.RecyclerView>
+    <Button
+        android:id="@+id/resultButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@id/question_recyler"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/bgColor"
+        android:textColor="@color/textColor"
+        />
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text=""
+        android:layout_margin="5dp"
+        android:textSize="20dp"
+        android:textColor="@color/bgColor"
+        />
+</RelativeLayout>
+</LinearLayout>
