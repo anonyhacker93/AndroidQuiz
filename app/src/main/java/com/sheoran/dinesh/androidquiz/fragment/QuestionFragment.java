@@ -1,6 +1,7 @@
 package com.sheoran.dinesh.androidquiz.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sheoran.dinesh.androidquiz.Adapter.QuestionRecyclerAdapter;
 import com.sheoran.dinesh.androidquiz.R;
 import com.sheoran.dinesh.androidquiz.model.QuestionOption;
@@ -28,7 +36,8 @@ public class QuestionFragment extends Fragment {
 
     private int totalCorrectAnswer;
     private int totalQuestion;
-
+    private DatabaseReference usersReference;
+    private Questions questions ;
     public static Fragment getInstance() {
         if (_instance == null) {
             _instance = new QuestionFragment();
@@ -49,6 +58,8 @@ public class QuestionFragment extends Fragment {
         recyclerView = view.findViewById(R.id.question_recyler);
         Button resultButton = view.findViewById(R.id.resultButton);
         _textResult = view.findViewById(R.id.txtResult);
+        initFirebase();
+        loadQuestions();
         resultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,15 +67,15 @@ public class QuestionFragment extends Fragment {
                 for (int i = 0; i < questionsArrayList.size(); i++) {
                     Questions questions = questionsArrayList.get(i);
 
-                    if(questions!=null)
-                    if(questions.getUserSelected().equals(questions.getRightOption())){
-                        totalCorrectAnswer++;
-                    }
+                    if (questions != null)
+                        if (questions.getUserSelected().equals(questions.getRightAnswer())) {
+                            totalCorrectAnswer++;
+                        }
                 }
-                _textResult.setText("Correct = "+totalCorrectAnswer+"/"+totalQuestion);
+                _textResult.setText("Correct = " + totalCorrectAnswer + "/" + totalQuestion);
             }
         });
-        loadQuestions();
+
         QuestionRecyclerAdapter adapter = new QuestionRecyclerAdapter(questionsArrayList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -80,45 +91,41 @@ public class QuestionFragment extends Fragment {
         return view;
     }
 
+
+    private void initFirebase() {
+        FirebaseApp.initializeApp(getContext());
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        usersReference = firebaseDatabase.getReference("Questions");
+    }
+
     private void loadQuestions() {
         questionsArrayList = new ArrayList<>();
-        QuestionOption options = new QuestionOption();
-        options.setOptions(new String[]{"US", "Japan", "Russia", "India"});
-        Questions questions = new Questions();
-        questions.setQuestion("Who is super power country ?");
-        questions.setOptions(options);
-        questions.setRightOption(options.getOptions()[0]);
 
-        QuestionOption options2 = new QuestionOption();
-        options2.setOptions(new String[]{"Rupee", "Japan Dollar", "Yen", "Pond"});
-        Questions questions2 = new Questions();
-        questions2.setQuestion("What is Japan Currency ?");
-        questions2.setOptions(options2);
-        questions2.setRightOption(options2.getOptions()[2]);
-
-
-        QuestionOption options3 = new QuestionOption();
-        options3.setOptions(new String[]{"Delhi", "Singapore", "Thailand", "Moscow"});
-        Questions questions3 = new Questions();
-        questions3.setQuestion("What is capital of Rusia ?");
-        questions3.setOptions(options3);
-        questions3.setRightOption(options3.getOptions()[3]);
-
-
-        QuestionOption options4 = new QuestionOption();
-        options4.setOptions(new String[]{"India", "Sri-Lanka", "Australia", "England"});
-        Questions questions4 = new Questions();
-        questions4.setQuestion("Who won the 2018 Women T20 Word Cup");
-        questions4.setOptions(options4);
-        questions4.setRightOption(options4.getOptions()[2]);
-
-
-        questionsArrayList.add(questions);
-        questionsArrayList.add(questions2);
-        questionsArrayList.add(questions3);
-        questionsArrayList.add(questions4);
+        questionsArrayList.add( getFromFirebase("111"));
 
         totalQuestion = questionsArrayList.size();
+    }
+
+    private Questions getFromFirebase(final String id) {
+
+        usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(id).exists()) {
+                    questions = dataSnapshot.child(id).getValue(Questions.class);
+                } else {
+                    Toast.makeText(getContext(), "Id does not existed !", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("errorTag","error: "+databaseError.getMessage());
+                questions = null;
+            }
+        });
+
+        return questions;
     }
 
 }

@@ -24,11 +24,14 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Questions questions = _questionsArrayList.get(position);
+        if(questions == null)
+            return;
+
         holder.question.setText(questions.getQuestion());
-        holder.rb1.setText(questions.getOptions().getOptions()[0]);
-        holder.rb2.setText(questions.getOptions().getOptions()[1]);
-        holder.rb3.setText(questions.getOptions().getOptions()[2]);
-        holder.rb4.setText(questions.getOptions().getOptions()[3]);
+        holder.rb1.setText(questions.getOption1());
+        holder.rb2.setText(questions.getOption2());
+        holder.rb3.setText(questions.getOption3());
+        holder.rb4.setText(questions.getOption4());
         holder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb = group.findViewById(checkedId);

@@ -1,19 +1,51 @@
 package com.sheoran.dinesh.androidquiz.model;
 
 public class Questions {
-private String question;
-private QuestionOption options;
-private String rightOption;
-private String userSelected="";
+
+    private String id;
+    private String question;
+    private String option1;
+    private String option2;
+    private String option3;
+    private String option4;
+    private String rightAnswer;
+    private String userSelected;
 
     public Questions() {
-        options = new QuestionOption();
+
     }
 
-    public Questions(String question, QuestionOption options, String rightOption) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRightAnswer() {
+        return rightAnswer;
+    }
+
+    public void setRightAnswer(String rightAnswer) {
+        this.rightAnswer = rightAnswer;
+    }
+
+    public String getUserSelected() {
+        return userSelected;
+    }
+
+    public void setUserSelected(String userSelected) {
+        this.userSelected = userSelected;
+    }
+
+    public Questions(String id, String question, String option1, String option2, String option3, String option4) {
+        this.id = id;
         this.question = question;
-        this.options = options;
-        this.rightOption = rightOption;
+        this.option1 = option1;
+        this.option2 = option2;
+        this.option3 = option3;
+        this.option4 = option4;
     }
 
     public String getQuestion() {
@@ -24,27 +56,35 @@ private String userSelected="";
         this.question = question;
     }
 
-    public QuestionOption getOptions() {
-        return options;
+    public String getOption1() {
+        return option1;
     }
 
-    public void setOptions(QuestionOption options) {
-        this.options = options;
+    public void setOption1(String option1) {
+        this.option1 = option1;
     }
 
-    public String getRightOption() {
-        return rightOption;
+    public String getOption2() {
+        return option2;
     }
 
-    public void setRightOption(String rightOption) {
-        this.rightOption = rightOption;
+    public void setOption2(String option2) {
+        this.option2 = option2;
     }
 
-    public String getUserSelected() {
-        return userSelected;
+    public String getOption3() {
+        return option3;
     }
 
-    public void setUserSelected(String userSelected) {
-        this.userSelected = userSelected;
+    public void setOption3(String option3) {
+        this.option3 = option3;
+    }
+
+    public String getOption4() {
+        return option4;
+    }
+
+    public void setOption4(String option4) {
+        this.option4 = option4;
     }
 }
