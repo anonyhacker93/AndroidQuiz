@@ -15,8 +15,6 @@ import com.sheoran.dinesh.androidquiz.util.FirebaseHelper;
 
 public class BaseFragment extends Fragment {
 
-    protected DatabaseReference firebaseDatabaseReference;
-
     public BaseFragment() {
         // Required empty public constructor
     }
@@ -31,9 +29,10 @@ public class BaseFragment extends Fragment {
     private void init(){
     }
 
-    protected void initFirebase(Context context, String databaseReference) {
+    protected DatabaseReference initFirebase(Context context, String databaseReference) {
         FirebaseHelper firebaseHelper = new FirebaseHelper(context,databaseReference);
-        firebaseDatabaseReference = firebaseHelper.getDatabaseReference();
+        DatabaseReference firebaseDatabaseReference = firebaseHelper.getDatabaseReference();
+        return firebaseDatabaseReference;
     }
 
     protected void replaceFragment(Fragment fragment,int container) {

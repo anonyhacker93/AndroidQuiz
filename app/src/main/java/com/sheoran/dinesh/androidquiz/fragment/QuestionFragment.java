@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.sheoran.dinesh.androidquiz.Adapter.QuestionRecyclerAdapter;
 import com.sheoran.dinesh.androidquiz.R;
+import com.sheoran.dinesh.androidquiz.model.Category;
 import com.sheoran.dinesh.androidquiz.model.Questions;
 import com.sheoran.dinesh.androidquiz.util.Constants;
 
@@ -32,8 +36,9 @@ public class QuestionFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
     private ArrayList<Questions> questionsArrayList;
+    private ArrayList<Category> _categoryArrayList;
     private TextView _textResult;
-
+    private Spinner _spinnerCategory;
     private int totalCorrectAnswer;
     private int totalQuestion;
     private DatabaseReference usersReference;
@@ -61,8 +66,21 @@ public class QuestionFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.question_recyler);
         Button resultButton = view.findViewById(R.id.resultButton);
         _textResult = view.findViewById(R.id.txtResult);
+        _spinnerCategory = view.findViewById(R.id.spinnerCategory);
+        _spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) return;
+                loadQuestions(_categoryArrayList.get(i - 1).getCategoryName());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         initFirebase(getContext(), Constants.FIREBASE_QUESTION_REFERENCE);
-        loadQuestions();
         resultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +96,9 @@ public class QuestionFragment extends BaseFragment {
                 _textResult.setText("Correct = " + totalCorrectAnswer + "/" + totalQuestion);
             }
         });
+        loadCategories();
         questionsArrayList = new ArrayList<>();
+        _categoryArrayList = new ArrayList<>();
         _adapter = new QuestionRecyclerAdapter(questionsArrayList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(_adapter);
@@ -94,7 +114,7 @@ public class QuestionFragment extends BaseFragment {
         return view;
     }
 
-    private void loadQuestions() {
+    private void loadQuestions(final String categName) {
 
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Please wait");
@@ -102,10 +122,11 @@ public class QuestionFragment extends BaseFragment {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.show();
-        firebaseDatabaseReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = initFirebase(getContext(), Constants.FIREBASE_QUESTION_REFERENCE);
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                Iterator<DataSnapshot> iterator = dataSnapshot.child(categName).getChildren().iterator();
                 Questions questions;
                 questionsArrayList.clear();
                 while (iterator.hasNext()) {
@@ -148,6 +169,59 @@ public class QuestionFragment extends BaseFragment {
         });
 
         return questions;
+    }
+
+    private ArrayList<Category> loadCategories() {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading categories");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        final ArrayList<Category> categoryArrayList = new ArrayList<>();
+        DatabaseReference reference = initFirebase(getContext(), Constants.FIREBASE_CATEGORY_REF);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot ds) {
+                Iterator<DataSnapshot> itr = ds.getChildren().iterator();
+                while (itr.hasNext()) {
+                    DataSnapshot shot = itr.next();
+                    Category category = shot.getValue(Category.class);
+                    if (category != null) {
+                        categoryArrayList.add(category);
+                    }
+                }
+                _categoryArrayList.addAll(categoryArrayList);
+                String[] dataList;
+                dataList = new String[categoryArrayList.size() + 1];
+                dataList[0] = "Categories";
+                if (categoryArrayList != null) {
+                    int indx = 1;
+                    for (Category categ : categoryArrayList) {
+                        dataList[indx] = categ.getCategoryName();
+                        indx++;
+                    }
+                }
+
+                ArrayAdapter<String> categoryDropdownAdapter;
+                categoryDropdownAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataList);
+                categoryDropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                _spinnerCategory.setAdapter(categoryDropdownAdapter);
+                if (categoryArrayList.size() > 0) {
+                    loadQuestions(categoryArrayList.get(0).getCategoryName());
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "Unable to access database !", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return categoryArrayList;
     }
 
 }
