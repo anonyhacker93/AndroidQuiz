@@ -43,7 +43,7 @@ public class QuestionFragment extends BaseFragment {
     private int totalQuestion;
     private DatabaseReference usersReference;
     private Questions questions;
-
+    ArrayAdapter<String> categoryDropdownAdapter;
     public static Fragment getInstance() {
         if (_instance == null) {
             _instance = new QuestionFragment();
@@ -149,28 +149,6 @@ public class QuestionFragment extends BaseFragment {
 
     }
 
-    private Questions getFromFirebase(final String id) {
-
-        usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(id).exists()) {
-                    questions = dataSnapshot.child(id).getValue(Questions.class);
-                } else {
-                    Toast.makeText(getContext(), "Id does not existed !", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("errorTag", "error: " + databaseError.getMessage());
-                questions = null;
-            }
-        });
-
-        return questions;
-    }
-
     private ArrayList<Category> loadCategories() {
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading categories");
@@ -204,14 +182,12 @@ public class QuestionFragment extends BaseFragment {
                         indx++;
                     }
                 }
-
-                ArrayAdapter<String> categoryDropdownAdapter;
                 categoryDropdownAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataList);
                 categoryDropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 _spinnerCategory.setAdapter(categoryDropdownAdapter);
-                if (categoryArrayList.size() > 0) {
+               /* if (categoryArrayList.size() > 0) {
                     loadQuestions(categoryArrayList.get(0).getCategoryName());
-                }
+                }*/
                 progressDialog.dismiss();
             }
 
