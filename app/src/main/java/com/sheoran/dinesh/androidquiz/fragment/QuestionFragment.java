@@ -66,19 +66,14 @@ public class QuestionFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.question_recyler);
         Button resultButton = view.findViewById(R.id.resultButton);
         _textResult = view.findViewById(R.id.txtResult);
-        _spinnerCategory = view.findViewById(R.id.spinnerCategory);
-        _spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) return;
-                loadQuestions(_categoryArrayList.get(i - 1).getCategoryName());
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            Category category = (Category)bundle.getSerializable(CategoriesFragment.CATEGORY_KEY);
+            if(category!=null) {
+                loadQuestions(category.getCategoryName());
             }
-        });
+        }
 
         initFirebase(getContext(), Constants.FIREBASE_QUESTION_REFERENCE);
         resultButton.setOnClickListener(new View.OnClickListener() {
@@ -182,9 +177,9 @@ public class QuestionFragment extends BaseFragment {
                         indx++;
                     }
                 }
-                categoryDropdownAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataList);
-                categoryDropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                _spinnerCategory.setAdapter(categoryDropdownAdapter);
+               // categoryDropdownAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataList);
+               // categoryDropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+               // _spinnerCategory.setAdapter(categoryDropdownAdapter);
                /* if (categoryArrayList.size() > 0) {
                     loadQuestions(categoryArrayList.get(0).getCategoryName());
                 }*/

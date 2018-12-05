@@ -6,17 +6,8 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Spinner
-        android:id="@+id/spinnerCategory"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/options_entries"
-        android:layout_margin="10dp"
-        android:textAlignment="center"
-        ></Spinner>
-<android.support.v7.widget.RecyclerView
+
+    <android.support.v7.widget.RecyclerView
 
     android:id="@+id/question_recyler"
     android:layout_width="match_parent"
