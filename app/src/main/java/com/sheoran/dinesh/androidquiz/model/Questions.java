@@ -13,7 +13,7 @@ public class Questions implements Parcelable {
     private String option4;
     private String categoryName;
     private String rightAnswer;
-    private String userSelected;
+    private String userSelected="";
 
     public Questions(){}
 

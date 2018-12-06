@@ -1,22 +1,16 @@
 package com.sheoran.dinesh.androidquiz.fragment;
 
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -34,9 +28,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class QuestionFragment extends BaseFragment {
-    private static QuestionFragment _instance;
     private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
     private ArrayList<Questions> questionsArrayList;
     private ArrayList<Category> _categoryArrayList;
 
@@ -54,9 +47,9 @@ public class QuestionFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.question_recyler);
         Button resultButton = view.findViewById(R.id.resultButton);
         Bundle bundle = getArguments();
-        if(bundle != null){
-            Category category = (Category)bundle.getSerializable(CategoriesFragment.CATEGORY_KEY);
-            if(category!=null) {
+        if (bundle != null) {
+            Category category = (Category) bundle.getSerializable(CategoriesFragment.CATEGORY_KEY);
+            if (category != null) {
                 loadQuestions(category.getCategoryName());
             }
         }
@@ -67,17 +60,17 @@ public class QuestionFragment extends BaseFragment {
             public void onClick(View view) {
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("QuestionArrayList",questionsArrayList);
+                bundle.putParcelableArrayList("QuestionArrayList", questionsArrayList);
                 ResultDialogFragment resultDialogFragment = new ResultDialogFragment();
                 resultDialogFragment.setArguments(bundle);
-                resultDialogFragment.show(getFragmentManager(),"tag");
+                resultDialogFragment.show(getFragmentManager(), "");
             }
         });
         loadCategories();
         questionsArrayList = new ArrayList<>();
         _categoryArrayList = new ArrayList<>();
         _adapter = new QuestionRecyclerAdapter(questionsArrayList);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(_adapter);
 
         recyclerView.setOnClickListener(new View.OnClickListener() {
@@ -159,12 +152,6 @@ public class QuestionFragment extends BaseFragment {
                         indx++;
                     }
                 }
-               // categoryDropdownAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, dataList);
-               // categoryDropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-               // _spinnerCategory.setAdapter(categoryDropdownAdapter);
-               /* if (categoryArrayList.size() > 0) {
-                    loadQuestions(categoryArrayList.get(0).getCategoryName());
-                }*/
                 progressDialog.dismiss();
             }
 

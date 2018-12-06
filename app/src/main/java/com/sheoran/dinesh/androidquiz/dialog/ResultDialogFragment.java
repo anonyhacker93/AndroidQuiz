@@ -3,7 +3,6 @@ package com.sheoran.dinesh.androidquiz.dialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -30,11 +29,25 @@ public class ResultDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        return dialog;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
         View view = inflater.inflate(R.layout.dialog_fragment_result , container, false);
         pieChart = view.findViewById(R.id.idPieChart);
         initPieChart();
@@ -75,7 +88,9 @@ public class ResultDialogFragment extends DialogFragment {
         practiceResult.setTotalAttempt(attemptCount);
         practiceResult.setTotalRight(rightCount);
         practiceResult.setTotalWrong(wrongCount);
-        practiceResult.setCategoryName(questionsArrayList.get(0).getCategoryName());
+        if (questionsArrayList.size()>0) {
+            practiceResult.setCategoryName(questionsArrayList.get(0).getCategoryName());
+        }
      return practiceResult;
     }
 
@@ -87,7 +102,6 @@ public class ResultDialogFragment extends DialogFragment {
         //pieChart.setCenterTextColor(Color.BLACK);
         pieChart.setHoleRadius(25f);
         pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("Super Cool Chart");
         pieChart.setCenterTextSize(8);
     }
 
@@ -124,13 +138,5 @@ public class ResultDialogFragment extends DialogFragment {
         PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
         pieChart.invalidate();
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        return dialog;
     }
 }
