@@ -69,7 +69,7 @@ public class QuestionFragment extends BaseFragment {
         loadCategories();
         questionsArrayList = new ArrayList<>();
         _categoryArrayList = new ArrayList<>();
-        _adapter = new QuestionRecyclerAdapter(questionsArrayList);
+        _adapter = new QuestionRecyclerAdapter(getContext(),questionsArrayList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(_adapter);
 

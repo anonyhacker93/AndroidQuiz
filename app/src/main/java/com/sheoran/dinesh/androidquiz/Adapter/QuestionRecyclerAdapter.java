@@ -1,7 +1,11 @@
 package com.sheoran.dinesh.androidquiz.Adapter;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +18,20 @@ import com.sheoran.dinesh.androidquiz.model.Questions;
 
 import java.util.ArrayList;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecyclerAdapter.MyViewHolder> {
     private ArrayList<Questions> _questionsArrayList;
-
-    public QuestionRecyclerAdapter(ArrayList<Questions> questionsArrayList) {
+    private Context _context;
+    public QuestionRecyclerAdapter(Context context,ArrayList<Questions> questionsArrayList) {
         _questionsArrayList = questionsArrayList;
+        this._context = context;
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Questions questions = _questionsArrayList.get(position);
-        if(questions == null)
+        if (questions == null)
             return;
 
         holder.question.setText(questions.getQuestion());
@@ -37,6 +44,24 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
                 RadioButton rb = group.findViewById(checkedId);
                 questions.setUserSelected(rb.getText().toString());
                 setRadioButtonDisable(group);
+
+                if (questions.getRightAnswer().equals(questions.getUserSelected())) {
+                    rb.setTextColor(Color.GREEN);
+                } else {
+                    if (questions.getUserSelected().isEmpty()) {
+
+                    } else {
+                        rb.setTextColor(Color.RED);
+                        vibrate();
+                        RadioButton radioButton;
+                        for (int i = 0; i < group.getChildCount(); i++){
+                            radioButton = (RadioButton) group.getChildAt(i);
+                            if(questions.getRightAnswer().equals(radioButton.getText().toString())){
+                                radioButton.setTextColor(Color.GREEN);
+                            }
+                        }
+                    }
+                }
             }
         });
 
@@ -68,7 +93,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView question;
         public RadioButton rb1, rb2, rb3, rb4;
         public RadioGroup radioGroup;
@@ -86,4 +111,11 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
 
     }
 
+    private void vibrate() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            ((Vibrator) _context.getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(150,10));
+        } else {
+            ((Vibrator) _context.getSystemService(VIBRATOR_SERVICE)).vibrate(150);
+        }
+    }
 }
