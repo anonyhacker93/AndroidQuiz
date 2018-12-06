@@ -1,6 +1,9 @@
 package com.sheoran.dinesh.androidquiz.model;
 
-public class Questions {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Questions implements Parcelable {
 
     private String id;
     private String question;
@@ -8,11 +11,22 @@ public class Questions {
     private String option2;
     private String option3;
     private String option4;
+    private String categoryName;
     private String rightAnswer;
     private String userSelected;
 
-    public Questions() {
+    public Questions(){}
 
+    public Questions(Parcel in) {
+        this.id = in.readString();
+        this.question = in.readString();
+        this.option1 = in.readString();
+        this.option2 = in.readString();
+        this.option3 = in.readString();
+        this.option4 = in.readString();
+        this.categoryName = in.readString();
+        this.rightAnswer = in.readString();
+        this.userSelected = in.readString();
     }
 
     public String getId() {
@@ -87,4 +101,40 @@ public class Questions {
     public void setOption4(String option4) {
         this.option4 = option4;
     }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.id);
+        parcel.writeString(this.question);
+        parcel.writeString(this.option1);
+        parcel.writeString(this.option2);
+        parcel.writeString(this.option3);
+        parcel.writeString(this.option4);
+        parcel.writeString(this.categoryName);
+        parcel.writeString(this.rightAnswer);
+        parcel.writeString(this.userSelected);
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Questions createFromParcel(Parcel in) {
+            return new Questions(in);
+        }
+
+        public Questions[] newArray(int size) {
+            return new Questions[size];
+        }
+    };
 }

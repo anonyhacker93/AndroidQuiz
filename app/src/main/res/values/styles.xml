@@ -14,7 +14,7 @@
     </style>
 
     <style name="ThemeOverlay.Sigma.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textColorPrimary">@color/textColor</item>
+        <item name="android:textColorPrimary">@color/textColorDefault</item>
     </style>
 
     <!-- ToolBar -->
@@ -33,7 +33,7 @@
     </style>
 
     <style name="title_text_style">
-        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 

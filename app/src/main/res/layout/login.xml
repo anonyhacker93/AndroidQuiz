@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="20dp"
             android:backgroundTint="@color/bgColor"
-            android:textColor="@color/textColor"
+            android:textColor="@color/textColorDefault"
             />
         <Button
             android:id="@+id/btnLogin"
@@ -67,7 +67,7 @@
             android:text="Login"
             android:layout_weight="1"
             android:layout_marginRight="20dp"
-            android:textColor="@color/textColor"
+            android:textColor="@color/textColorDefault"
             android:backgroundTint="@color/bgColor"
             />
 

@@ -68,7 +68,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView question;
         public RadioButton rb1, rb2, rb3, rb4;
         public RadioGroup radioGroup;
@@ -84,11 +84,6 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
             getAdapterPosition();
         }
 
-        @Override
-        public void onClick(View v) {
-            int position = getAdapterPosition();
-            Log.d("HOLDER", "ON CLICK: " + position);
-        }
     }
 
 }

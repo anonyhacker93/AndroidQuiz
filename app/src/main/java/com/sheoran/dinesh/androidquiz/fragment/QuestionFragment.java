@@ -1,5 +1,6 @@
 package com.sheoran.dinesh.androidquiz.fragment;
 
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.sheoran.dinesh.androidquiz.Adapter.QuestionRecyclerAdapter;
 import com.sheoran.dinesh.androidquiz.R;
+import com.sheoran.dinesh.androidquiz.dialog.ResultDialogFragment;
 import com.sheoran.dinesh.androidquiz.model.Category;
 import com.sheoran.dinesh.androidquiz.model.Questions;
 import com.sheoran.dinesh.androidquiz.util.Constants;
@@ -37,26 +39,12 @@ public class QuestionFragment extends BaseFragment {
     private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
     private ArrayList<Questions> questionsArrayList;
     private ArrayList<Category> _categoryArrayList;
-    private TextView _textResult;
-    private Spinner _spinnerCategory;
-    private int totalCorrectAnswer;
-    private int totalQuestion;
-    private DatabaseReference usersReference;
-    private Questions questions;
-    ArrayAdapter<String> categoryDropdownAdapter;
-    public static Fragment getInstance() {
-        if (_instance == null) {
-            _instance = new QuestionFragment();
-        }
-        return _instance;
-    }
 
     private QuestionRecyclerAdapter _adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        totalQuestion = 0;
     }
 
     @Nullable
@@ -65,8 +53,6 @@ public class QuestionFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_question, null, false);
         recyclerView = view.findViewById(R.id.question_recyler);
         Button resultButton = view.findViewById(R.id.resultButton);
-        _textResult = view.findViewById(R.id.txtResult);
-
         Bundle bundle = getArguments();
         if(bundle != null){
             Category category = (Category)bundle.getSerializable(CategoriesFragment.CATEGORY_KEY);
@@ -79,16 +65,12 @@ public class QuestionFragment extends BaseFragment {
         resultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                totalCorrectAnswer = 0;
-                for (int i = 0; i < questionsArrayList.size(); i++) {
-                    Questions questions = questionsArrayList.get(i);
 
-                    if (questions != null && questions.getUserSelected() != null)
-                        if (questions.getUserSelected().equals(questions.getRightAnswer())) {
-                            totalCorrectAnswer++;
-                        }
-                }
-                _textResult.setText("Correct = " + totalCorrectAnswer + "/" + totalQuestion);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("QuestionArrayList",questionsArrayList);
+                ResultDialogFragment resultDialogFragment = new ResultDialogFragment();
+                resultDialogFragment.setArguments(bundle);
+                resultDialogFragment.show(getFragmentManager(),"tag");
             }
         });
         loadCategories();

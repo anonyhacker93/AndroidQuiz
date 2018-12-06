@@ -25,17 +25,7 @@
         android:layout_alignRight="@id/question_recyler"
         android:layout_margin="5dp"
         android:backgroundTint="@color/bgColor"
-        android:textColor="@color/textColor"
-        />
-    <TextView
-        android:id="@+id/txtResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text=""
-        android:layout_margin="5dp"
-        android:textSize="20dp"
-        android:textColor="@color/bgColor"
+        android:textColor="@color/textColorDefault"
         />
 </RelativeLayout>
 </LinearLayout>
