@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sheoran.dinesh.androidquiz.MainActivity;
 import com.sheoran.dinesh.androidquiz.R;
 import com.sheoran.dinesh.androidquiz.model.User;
 public class UserAccountActivity extends BaseActivity {

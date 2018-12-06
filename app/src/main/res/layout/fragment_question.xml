@@ -14,7 +14,6 @@
     android:layout_height="match_parent"
     android:paddingBottom="100dp"
     android:clipToPadding="false"
-    android:layout_below="@+id/spinnerCategory"
     >
 </android.support.v7.widget.RecyclerView>
     <Button
