@@ -29,27 +29,12 @@ public class ResultDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        return dialog;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_fragment_result , container, false);
         pieChart = view.findViewById(R.id.idPieChart);
+
         initPieChart();
 
         if(getArguments() !=null){
@@ -71,6 +56,7 @@ public class ResultDialogFragment extends DialogFragment {
         int wrongCount = 0;
         int attemptCount = 0;
         Questions questions;
+
      for(int i=0;i<questionsArrayList.size();i++){
          questions = questionsArrayList.get(i);
          if(questions.getUserSelected().equals(questions.getRightAnswer())){

@@ -22,17 +22,6 @@ public class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
-    }
-
-
-    private void init(){
-    }
-
-    protected DatabaseReference initFirebase(Context context, String databaseReference) {
-        FirebaseHelper firebaseHelper = new FirebaseHelper(context,databaseReference);
-        DatabaseReference firebaseDatabaseReference = firebaseHelper.getDatabaseReference();
-        return firebaseDatabaseReference;
     }
 
     protected void replaceFragment(Fragment fragment,int container) {

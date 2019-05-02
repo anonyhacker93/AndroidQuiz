@@ -32,13 +32,4 @@ public class BaseActivity  extends AppCompatActivity {
     protected String getResourceString(int id){
         return this.getResources().getString(id);
     }
-
-    protected ProgressDialog getProgressDialog(int title, int msg){
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle(getResourceString(title));
-        progressDialog.setMessage(getResourceString(msg));
-        progressDialog.setCancelable(false);
-        progressDialog.setIndeterminate(true);
-        return progressDialog;
-    }
 }

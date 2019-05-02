@@ -6,37 +6,32 @@ import android.widget.Toast;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sheoran.dinesh.androidquiz.listener.FirebaseDataChangeNotifier;
 
-public class FirebaseHelper {
-    private DatabaseReference _databaseReference;
+abstract public class FirebaseHelper {
+    protected DatabaseReference databaseReference;
+    protected FirebaseDataChangeNotifier firebaseDataChangeNotifier;
 
     public FirebaseHelper(Context context, String referenceName) {
         initFirebase(context, referenceName);
     }
 
-    /**
-     * @param context
-     * @param referenceName name of pointing node/child in firebase
-     */
+
     private void initFirebase(Context context, String referenceName) {
         FirebaseApp.initializeApp(context);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        _databaseReference = firebaseDatabase.getReference(referenceName);
+        databaseReference = firebaseDatabase.getReference(referenceName);
     }
 
     public DatabaseReference getDatabaseReference() {
-        return _databaseReference;
+        return databaseReference;
     }
 
-    /**
-     * @param context
-     * @param childName name of node which need to be remove from firebase
-     * @return true if delete node succesfully from firebase
-     */
+
     public boolean deleteNode(Context context, String childName) {
         try {
-            if (_databaseReference.child(childName) != null) {
-                _databaseReference.child(childName).removeValue();
+            if (databaseReference.child(childName) != null) {
+                databaseReference.child(childName).removeValue();
                 return true;
             }
             {
@@ -48,4 +43,9 @@ public class FirebaseHelper {
         }
         return false;
     }
+
+    abstract public void setFirebaseDataChangeNotifier(FirebaseDataChangeNotifier listener);
+
+    abstract public void unsetFirebaseDataChangeNotifier();
+
 }

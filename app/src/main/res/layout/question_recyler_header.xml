@@ -1,79 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.widget.CardView
+    <data>
+
+        <variable
+            name="Question"
+            type="com.sheoran.dinesh.androidquiz.model.Questions"></variable>
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        >
-        <LinearLayout
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Q."
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:id="@+id/text_question"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=" Which is official language of Android ?"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    />
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Q."
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_question"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{Question.question}"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bgColor"></View>
+
+                <RadioGroup
+                    android:id="@+id/optionRadioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_option1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{Question.option1}" />
+
+                    <RadioButton
+                        android:id="@+id/rb_option2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{Question.option2}"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_option3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{Question.option3}" />
+
+                    <RadioButton
+                        android:id="@+id/rb_option4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{Question.option4}" />
+
+                </RadioGroup>
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bgColor"
-                ></View>
-            <RadioGroup
-                android:id="@+id/optionRG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                >
-                <RadioButton
-                    android:id="@+id/rb_option1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.Java"
-                    />
-                <RadioButton
-                    android:id="@+id/rb_option2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2.Python"
-                    />
-                <RadioButton
-                    android:id="@+id/rb_option3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3.Kotlin"
-                    />
-                <RadioButton
-                    android:id="@+id/rb_option4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4.Visual Basic"
-                    />
-
-            </RadioGroup>
-        </LinearLayout>
 
 
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</layout>
