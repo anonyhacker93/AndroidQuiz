@@ -54,7 +54,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter<QuestionRecycl
                 if (!questions.getUserSelected().isEmpty()) {
                     radioButton.setTextColor(Color.RED);
                     vibrate();
-                    RadioButton radioBtn;
+                 RadioButton radioBtn;
                     for (int i = 0; i < group.getChildCount(); i++) {
                         radioBtn = (RadioButton) group.getChildAt(i);
                         if (questions.getRightAnswer().equals(radioBtn.getText().toString())) {

@@ -60,7 +60,8 @@ public class QuestionFragment extends BaseFragment {
 
         Button resultButton = view.findViewById(R.id.resultButton);
         resultButton.setOnClickListener((v) -> {
-            showResultFragment();
+             showResultFragment();
+
         });
 
         init();

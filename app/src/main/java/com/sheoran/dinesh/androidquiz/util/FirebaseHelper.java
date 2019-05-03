@@ -23,10 +23,6 @@ abstract public class FirebaseHelper {
         databaseReference = firebaseDatabase.getReference(referenceName);
     }
 
-    public DatabaseReference getDatabaseReference() {
-        return databaseReference;
-    }
-
 
     public boolean deleteNode(Context context, String childName) {
         try {

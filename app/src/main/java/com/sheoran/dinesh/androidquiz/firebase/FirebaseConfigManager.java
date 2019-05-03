@@ -4,17 +4,19 @@ import android.content.Context;
 
 // Created by Dinesh Kumar on 5/2/2019
 public class FirebaseConfigManager {
+    public static FirebaseConfigManager _instance;
+
     private CategoryFirebaseConfig _categoryFirebaseConfig;
     private QuestionFirebaseConfig _questionFirebaseConfig;
     private UserAccounFirebaseConfig _userAccounFirebaseConfig;
 
     private FirebaseConfigManager(Context context) {
+        _userAccounFirebaseConfig = UserAccounFirebaseConfig.getInstancce(context);
         _categoryFirebaseConfig = CategoryFirebaseConfig.getInstance(context);
         _questionFirebaseConfig = QuestionFirebaseConfig.getInstance(context);
-        _userAccounFirebaseConfig = UserAccounFirebaseConfig.getInstancce(context);
     }
 
-    public static FirebaseConfigManager _instance;
+
 
     public static FirebaseConfigManager getInstance(Context context) {
         if (_instance == null) {
@@ -31,7 +33,7 @@ public class FirebaseConfigManager {
         return _questionFirebaseConfig;
     }
 
-    public UserAccounFirebaseConfig getUserAccountFirebaseConfig(){
+    public UserAccounFirebaseConfig getUserAccountConfig(){
         return _userAccounFirebaseConfig;
     }
 }

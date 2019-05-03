@@ -11,7 +11,6 @@ public class ProgressDialogUtil {
         progressDialog.setMessage(msg);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        progressDialog.show();
         return progressDialog;
     }
 }

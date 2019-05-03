@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sheoran.dinesh.androidquiz.R;
 import com.sheoran.dinesh.androidquiz.activity.MainActivity;
@@ -51,7 +53,6 @@ public class UserAccounFirebaseConfig extends FirebaseHelper {
             }
         });
     }
-
 
     public void requestToLogin(User user) {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

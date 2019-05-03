@@ -36,20 +36,25 @@ public class UserAccountActivity extends BaseActivity {
         _binding.setUserInstance(new User(_binding.userName.getText().toString(),"",_binding.userPwd.getText().toString()));
         init();
 
+
         _binding.btnSignin.setOnClickListener((view) -> {
 
             signIn();
         });
 
         _binding.btnLogin.setOnClickListener((view) -> {
-            User user = _binding.getUserInstance();
-            login(user);
+           /* User user = _binding.getUserInstance();
+            user.setName(_binding.userName.getText().toString());
+            user.setPassword(_binding.userPwd.getText().toString());
+            user.setEmail("");*/
+            login(new User("a","a","a"));
         });
     }
 
     private void init() {
+        _progressDialog = ProgressDialogUtil.getDialog(this,"Please wait","Loading");
         _firebaseConfigManager = FirebaseConfigManager.getInstance(this);
-        _userAccounFirebaseConfig = _firebaseConfigManager.getUserAccountFirebaseConfig();
+        _userAccounFirebaseConfig = _firebaseConfigManager.getUserAccountConfig();
 
         _userAccounFirebaseConfig.setFirebaseDataChangeNotifier(new FirebaseDataChangeAdapter() {
             @Override

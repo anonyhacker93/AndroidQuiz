@@ -49,12 +49,12 @@ public class CategoryFirebaseConfig extends FirebaseHelper {
                     _categoryList.add(category);
                 }
 
-                firebaseDataChangeNotifier.onAdd(true, "load categories successfully !");
+                firebaseDataChangeNotifier.onLoad(true, "load categories successfully !");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                firebaseDataChangeNotifier.onAdd(false, "Unable to load categories");
+                firebaseDataChangeNotifier.onLoad(false, "Unable to load categories");
             }
         });
     }
